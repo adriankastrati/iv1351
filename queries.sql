@@ -43,9 +43,9 @@ GROUP BY EXTRACT(MONTH FROM l.date_time);
 -- List all instructors who has given more than a specific number of lessons during the current month. Sum all lessons, independent of type, and sort the result by the number of given lessons.
 SELECT i.id, p.first_name, p.last_name, COUNT(*) AS lessons_given
 FROM instructor_lesson il
-INNER JOIN instructor i ON il.instructor_id = i.id
+INNER JOIN instructor i ON i_l.instructor_id = i.id
 INNER JOIN person p ON i.parent_person_id = p.id
-INNER JOIN lesson l ON il.lesson_id = l.id
+INNER JOIN lesson l ON i_l.lesson_id = l.id
 WHERE l.date_time >= date_trunc('month', CURRENT_DATE)
 GROUP BY i.id, p.first_name, p.last_name
 ORDER BY lessons_given DESC
