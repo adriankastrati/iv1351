@@ -1,3 +1,4 @@
+--1.
 --Show the number of lessons given per month during a specified year
 CREATE MATERIALIZED VIEW lessons_1999 AS
 
@@ -9,7 +10,7 @@ FROM lesson AS l
 GROUP BY EXTRACT(MONTH FROM l.date_time);
 
 
-
+--2.
 --the specific number of individual lessons, group lessons and ensembles (three numbers per month)
 CREATE MATERIALIZED VIEW monthly_lessons AS
 SELECT EXTRACT(MONTH FROM l.date_time) AS month,
@@ -36,7 +37,7 @@ WHERE EXTRACT(YEAR FROM l.date_time) = '1999'
 GROUP BY EXTRACT(MONTH FROM l.date_time);
 
 
-
+--3.
 -- List all instructors who has given more than a specific number of lessons during the current month. Sum all lessons, independent of type, and sort the result by the number of given lessons. This query will be used to find instructors risking to work too much, and will be executed daily.
 SELECT (first_name ,last_name) AS "personID",
 COUNT((first_name,last_name)) AS "Number of lessons"
@@ -53,6 +54,7 @@ LEFT JOIN lesson AS l
 GROUP BY (first_name,last_name)
 ORDER BY "Number of lessons" DESC 
 
+--4.
 --Show how many students there are with no sibling, with one sibling, with two siblings, etc
 CREATE MATERIALIZED VIEW siblings_count AS
 
