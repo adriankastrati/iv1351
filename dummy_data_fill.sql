@@ -38,13 +38,13 @@ INSERT INTO lesson (skill_level, date_time) VALUES
 ;
 
 
-INSERT INTO instructor_lesson (lesson_id, instructor_id) VALUES
-    (   
-        (SELECT id from lesson WHERE id=11), 
-        (SELECT id from instructor WHERE id=1 )
-    )
+   
 
 INSERT INTO instructor_lesson (lesson_id, instructor_id) VALUES
+     (   
+        (SELECT id from lesson WHERE id=11), 
+        (SELECT id from instructor WHERE id=1 )
+    ),
     (   
         (SELECT id from lesson WHERE id=1), 
         (SELECT id from instructor WHERE id=1 )
