@@ -51,10 +51,14 @@ LEFT JOIN instructor_lesson AS i_l
     ON i.id = i_l.instructor_id
 LEFT JOIN lesson AS l 
     ON l.id = i_l.lesson_id
-    WHERE l.date_time >= date_trunc('month', CURRENT_DATE)
 
+WHERE l.date_time >= date_trunc('month', CURRENT_DATE)
 GROUP BY (first_name,last_name)
+HAVING COUNT((first_name,last_name)) >= 2
+
 ORDER BY "Number of lessons" DESC 
+
+;
 
 --4.
 --Show how many students there are with no sibling, with one sibling, with two siblings, etc
