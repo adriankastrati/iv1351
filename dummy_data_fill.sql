@@ -25,7 +25,7 @@ INSERT INTO instructor(parent_person_id, personal_number, ansemble_ability) VALU
 
 
 INSERT INTO lesson (skill_level, date_time) VALUES
-    ('BEGINNER', '2022-12-08 12:09:00'),
+    ('BEGINNER', '1999-12-08 12:09:00'),
     ('INTERMEDIATE', '1999-05-18 14:05:00'),
     ('BEGINNER', '1999-01-08 13:05:00'),
     ('ADVANCED', '1999-01-08 16:05:00'),
