@@ -22,16 +22,16 @@ SELECT EXTRACT(MONTH FROM l.date_time) AS month,
 
 FROM lesson as l
 
-FULL JOIN single_lesson AS s_l
+LEFT JOIN single_lesson AS s_l
     ON s_l.parent_lesson_id = l.id
 
-FULL JOIN group_lesson g_l 
+LEFT JOIN group_lesson g_l 
     ON l.id = g_l.parent_lesson_id  
 
-FULL JOIN ansemble_group_lesson AS a_g_l
+LEFT JOIN ansemble_group_lesson AS a_g_l
     ON a_g_l.parent_group_lesson_id = g_l.id
 
-FULL JOIN single_instrument_group_lesson AS s_i_g_l
+LEFT JOIN single_instrument_group_lesson AS s_i_g_l
     ON s_i_g_l.parent_group_lesson_id = g_l.id
 
 WHERE EXTRACT(YEAR FROM l.date_time) = '1999'
