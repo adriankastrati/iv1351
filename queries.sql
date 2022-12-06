@@ -70,3 +70,30 @@ UNION
     FROM student LEFT JOIN sibling_student ON student.id = sibling_student.student_id WHERE sibling_student.student_id IS NULL)
 
 ORDER BY n_siblings
+
+--5.
+--List all ensembles held during the next week, sorted by music genre and weekday.
+CREATE MATERIALIZED VIEW ensamble_lessons_next_week AS
+  SELECT 
+        TO_CHAR(l.date_time, 'day') as week_day,
+        a_g_l.genre AS genre,
+    CASE
+        WHEN g_l.min_spots = g_l.max_spots THEN 'Fully booked'
+        WHEN g_l.min_spots = g_l.max_spots - 1 OR
+             g_l.min_spots = g_l.max_spots - 2
+            THEN '1-2 more spots left'
+        
+        ELSE 'More than 2 spots left'
+    END as spots_left
+   
+    FROM group_lesson AS g_l
+    
+    INNER JOIN lesson AS l
+        ON g_l.parent_lesson_id = l.id
+    INNER JOIN ansemble_group_lesson AS a_g_l
+           ON a_g_l.parent_group_lesson_id =  g_l.id 
+    
+    WHERE DATE_TRUNC('week',l.date_time) = DATE_TRUNC('week',now())+ INTERVAL '1 week'
+
+    ORDER BY genre, week_day;
+
