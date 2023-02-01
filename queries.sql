@@ -75,3 +75,26 @@ UNION
     FROM student LEFT JOIN sibling_student ON student.id = sibling_student.student_id WHERE sibling_student.student_id IS NULL)
 
 ORDER BY n_siblings
+
+--5
+--List all ensembles held during the next week, sorted by music genre and weekday. 
+--For each ensemble tell whether it's full booked, has 1-2 seats left or has more seats left. 
+
+SELECT genre, date_part('dow', l.date_time) AS weekday,
+    (CASE 
+        WHEN g_l.max_spots - count(b.student_id) = 0 THEN 'FULLY BOOKED' 
+        WHEN g_l.max_spots - count(b.student_id) <= 2 THEN '1-2 SEATS LEFT' 
+        ELSE 'MORE SEATS LEFT' 
+    END) AS availability
+FROM lesson as l
+LEFT JOIN group_lesson g_l 
+    ON l.id = g_l.parent_lesson_id  
+LEFT JOIN ansemble_group_lesson AS a_g_l
+    ON a_g_l.parent_group_lesson_id = g_l.id
+LEFT JOIN booking AS b ON l.id = b.lesson_id
+LEFT JOIN student ON student.id = b.student_id
+
+
+WHERE date_time BETWEEN date_trunc('week', current_date + INTERVAL '1 week') + INTERVAL '0 day' AND date_trunc('week', current_date + INTERVAL '1 week') + INTERVAL '6 day'
+GROUP BY a_g_l.genre, date_time, g_l.max_spots
+ORDER BY a_g_l.genre, date_time;
